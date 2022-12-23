@@ -30,30 +30,27 @@ module.exports.actionReply1 = (req, res) => {
 }
 
 module.exports.stripePayment = (req, res) => {
-    return res.render("stripe")
+    return res.render("stript_getway")
 }
 
-module.exports.payment1 = async (req, res) => {
+module.exports.payment = async (req, res) => {
     const { product } = req.body;
+    console.log(req.body);
     const session = await stripe.checkout.sessions.create({
-        payment_method_type: ['card'],
-
+        
         line_items: [
             {
                 price_data :{
                     currency: 'inr',
                     product_data: {
-                        name : product.name,
-                        Phone_number : product.Phone_number
+                        product_name: req.body.product_name,
+                        // product_price : 8999
+                        product_price: req.body.product_price,
+                        quantity: req.body.quantity,
                     },
-                    unit_amount: product.amount * 100
-                    
                 },
-                quentity : product.quentity 
 
                 // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                // price: '{{PRICE_ID}}',
-                // quantity: 1,
             },
         ],
         mode: 'payment',
@@ -64,7 +61,7 @@ module.exports.payment1 = async (req, res) => {
     res.json({ id: session.id});
 }
 
-module.exports.payment = (req, res) => {
+module.exports.payment1 = (req, res) => {
 
     // Moreover you can take more details from user
     // like Address, Name, etc from form

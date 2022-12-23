@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXL1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+    <h1>
+        hello
+    </h1>
+    <button>Checkout</button>
+    <script>
+        const button = document.querySelector("button");
+        button.addEventListener("click", () => {
+            $.ajax({
+                url: `/payment`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ quantity: 1 }),
+                success: function (data, textStatus, xhr) {
+                    var stripe = Stripe('pk_test_51MGbrvIjzm6oSi14hET7enuk1pU98kg5tKYK1iKLyBqtvbRz7zk7q0DCCAWUMBJ1xg4EAMzp8sTNS3QZPD9NA1QJ00AWA7bXBP');
+                    return stripe.redirectToCheckout({ sessionId: data.id });
+
+                }
+            });
+        });
+        </script>
+</body >
+</html >
